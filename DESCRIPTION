@@ -1,7 +1,8 @@
 Package: psyphr.read
 Title: Read and Process Psychophysiological Data 
 Version: 0.1.0.9000
-Description: Read and process psychophysiological readings from MindWare Technologies 
+Description: Read and process psychophysiological readings from MindWare Technologies. 
+    A part of the psyphr suite. 
 Authors@R: c(person("Kathleen", "Wendt", email = "kathleen.wendt@colostate.edu", 
             role = c("aut", "cre")),
             person("Siqi", "Zhang", email = "iqis.gnahz@gmail.com",
@@ -10,8 +11,8 @@ Authors@R: c(person("Kathleen", "Wendt", email = "kathleen.wendt@colostate.edu",
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-URL: https://github.com/wendtke/psyphr
-BugReports: https://github.com/wendtke/psyphr/issues
+URL: https://github.com/psyphr-dev/psyphr.read
+BugReports: https://github.com/psyphr-dev/psyphr.read/issues
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 Suggests: 
