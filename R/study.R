@@ -5,7 +5,7 @@
 #'
 #' @return a data frame; psyphr study S3 object
 #' @export
-read_study <- function(path, ...){
+study <- function(path, ...){
   # this is now just a placeholder function
   # its job is to detect vendor and dispatch corresponding function
 }
@@ -20,7 +20,7 @@ read_study <- function(path, ...){
 #'
 #' @return a data frame; psyphr study S3 object
 #' @export
-read_MW_study <- function(path, structure = "flat", stash = FALSE, stash_dir_path = tempdir()){
+MW_study <- function(path, structure = "flat", stash = FALSE, stash_dir_path = tempdir()){
   file_paths <- list.files(path = path, pattern = "\\.xlsx$", full.names = TRUE, recursive = TRUE)
   file_ids <-
     dplyr::case_when(
@@ -47,7 +47,7 @@ read_MW_study <- function(path, structure = "flat", stash = FALSE, stash_dir_pat
   if (stash){
     study$stash <-  as.list(vector(length = nrow(study)))
     for (i in 1:nrow(study)){
-      study$stash[[i]] <- stash(read_MW(file_paths[i]),
+      study$stash[[i]] <- stash(MW(file_paths[i]),
                                 dir_path = stash_dir_path,
                                 file_name = paste(file_ids[[i]], collapse = "_"))
     }
@@ -59,7 +59,7 @@ read_MW_study <- function(path, structure = "flat", stash = FALSE, stash_dir_pat
   } else {
     study <- study %>%
       dplyr::mutate(
-        data = file_paths %>% purrr::quietly(purrr::map)(read_MW) %>% `[[`("result"),
+        data = file_paths %>% purrr::quietly(purrr::map)(MW) %>% `[[`("result"),
         format = .data$data %>% purrr::map( ~ attributes(.x)["format"]) %>% unlist()
       )
   }
@@ -78,21 +78,6 @@ print.psyphr_study <- function(x, ...){
 
 
 }
-
-
-#' Lift Metadata from Workbooks in a Study
-#'
-#' @param study a psyphr study object
-#'
-#' @return a psyphr study S3 object
-#' @export
-#'
-lift_meta <- function(study){
-  study %>%
-    dplyr::mutate(settings = .data$data %>% purrr::map("Settings"))
-}
-
-
 
 #' Flatten a Study with a Recursive File Structure
 #'
