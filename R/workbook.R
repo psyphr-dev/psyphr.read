@@ -357,5 +357,5 @@ gather_segments <- function(dat){
   dat %>%
     dplyr::mutate("Segment Index" = 1:nrow(dat)) %>%
     tidyr::gather(key = "Segment", value = "Value", -"Segment Index") %>%
-    dplyr::mutate("Session Index" = 1:nrow(.))
+    dplyr::mutate("Session Index" = 1:nrow(.data))
 }
