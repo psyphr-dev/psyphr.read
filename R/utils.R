@@ -4,7 +4,7 @@
 #' @export
 #'
 sample_study_MW <- function(){
-  system.file("extdata/MW/study", package = "psyphr")
+  system.file("extdata/MW/study", package = "psyphr.read")
 }
 
 #' Recursively Print out the Structure of a List

@@ -79,6 +79,34 @@ print.psyphr_study <- function(x, ...){
 
 }
 
+
+pick_sheets <- function(study, elements){
+  purrr::map(elements,
+      ~ purrr::map(study$data, .)
+  ) %>%
+    purrr::set_names(elements) %>%
+    tibble::as_tibble()
+}
+
+#' Unnest Data in a Study
+#'
+#' @param study a psyphr study
+#'
+#' @return a data frame; psyphr study S3 object
+#' @export
+#'
+unnest_data <- function(study){
+  MW_format_profiles <- readRDS(system.file("extdata/MW/MW_format_profiles.rds", package = "psyphr.read"))
+  study_formats <- intersect(unique(study$format), names(MW_format_profiles))
+  study_sheet_names <- unique(unlist(MW_format_profiles[study_formats]))
+  sheets <- pick_sheets(study, study_sheet_names)
+
+  study %>%
+    dplyr::select(-.data$data) %>%
+    dplyr::bind_cols(sheets)
+}
+
+
 #' Flatten a Study with a Recursive File Structure
 #'
 #' @param origin a character string; origin path

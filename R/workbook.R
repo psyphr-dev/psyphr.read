@@ -46,6 +46,9 @@ MW <- function(path){
 print.psyphr_workbook <- function(x, ...){
   cat("<psyphr_workbook>", attr(x, "device_vendor"), attr(x, "format"), "\n",
       "file:", attr(x, "file_path"), "\n")
+  for (e in names(x)) {
+    cat("-", e, "\n")
+  }
 }
 
 #### Internal ####
@@ -357,5 +360,5 @@ gather_segments <- function(dat){
   dat %>%
     dplyr::mutate("Segment Index" = 1:nrow(dat)) %>%
     tidyr::gather(key = "Segment", value = "Value", -"Segment Index") %>%
-    dplyr::mutate("Session Index" = 1:nrow(.data))
+    dplyr::mutate("Session Index" = 1:nrow(.))
 }
