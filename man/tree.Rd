@@ -28,3 +28,6 @@ character string of the screen output
 \description{
 Recursively Print out the Structure of a List
 }
+\references{
+https://gist.github.com/iqis/926c189da89a32b9702c340c42401c67
+}

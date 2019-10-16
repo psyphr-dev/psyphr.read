@@ -1,28 +1,33 @@
-Package: psyphr
-Title: Wrangle, Visualize, and Analyze Psychophysiological Data 
+Package: psyphr.read
+Title: Read and Process Psychophysiological Data 
 Version: 0.1.0.9000
-Description: This R package, founded at the Uncoast Unconf 2019, wrangles, 
-    visualizes, and analyzes psychophysiological data from MindWare Technologies. 
-    This material is based upon work supported by the 
-    National Science Foundation Graduate Research Fellowship Program 
-    under Grant No. 006784-00002 [to KEW]. Any opinions, findings, and 
-    conclusions or recommendations expressed in this material are those of 
-    the authors and do not necessarily reflect the views of the National 
-    Science Foundation.
+Description: Read and process psychophysiological readings from MindWare Technologies. 
+    A part of the psyphr suite. 
 Authors@R: c(person("Kathleen", "Wendt", email = "kathleen.wendt@colostate.edu", 
             role = c("aut", "cre")),
             person("Siqi", "Zhang", email = "iqis.gnahz@gmail.com",
-            role = "aut"))
+            role = "aut",
+            comment = c(ORCID = "0000-0003-2617-5776")))
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-URL: https://github.com/wendtke/psyphr
-BugReports: https://github.com/wendtke/psyphr/issues
+URL: https://github.com/psyphr-dev/psyphr.read
+BugReports: https://github.com/psyphr-dev/psyphr.read/issues
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 Suggests: 
-    testthat
+    testthat,
+    knitr
 Imports: 
     dplyr,
     readxl,
+    readr,
     purrr,
+    mod,
+    magrittr,
+    assertthat,
+    rlang,
+    stringr,
+    tibble,
+    tidyr
+VignetteBuilder: knitr

@@ -1,3 +1,16 @@
+#' Read a study
+#'
+#' @param path path to a study directory; a character string
+#' @param ... dot-dot-dot
+#'
+#' @return a data frame; psyphr study S3 object
+#' @export
+study <- function(path, ...){
+  # this is now just a placeholder function
+  # its job is to detect vendor and dispatch corresponding function
+}
+
+
 #' Read a study from a directory
 #'
 #' @param path path to a study directory; a character string
@@ -7,7 +20,7 @@
 #'
 #' @return a data frame; psyphr study S3 object
 #' @export
-read_MW_study <- function(path, structure = "flat", stash = FALSE, stash_dir_path = tempdir()){
+MW_study <- function(path, structure = "flat", stash = FALSE, stash_dir_path = tempdir()){
   file_paths <- list.files(path = path, pattern = "\\.xlsx$", full.names = TRUE, recursive = TRUE)
   file_ids <-
     dplyr::case_when(
@@ -34,7 +47,7 @@ read_MW_study <- function(path, structure = "flat", stash = FALSE, stash_dir_pat
   if (stash){
     study$stash <-  as.list(vector(length = nrow(study)))
     for (i in 1:nrow(study)){
-      study$stash[[i]] <- stash(read_MW(file_paths[i]),
+      study$stash[[i]] <- stash(MW(file_paths[i]),
                                 dir_path = stash_dir_path,
                                 file_name = paste(file_ids[[i]], collapse = "_"))
     }
@@ -46,8 +59,8 @@ read_MW_study <- function(path, structure = "flat", stash = FALSE, stash_dir_pat
   } else {
     study <- study %>%
       dplyr::mutate(
-        data = file_paths %>% purrr::quietly(purrr::map)(read_MW) %>% `[[`("result"),
-        format = data %>% purrr::map( ~ attributes(.x)["format"]) %>% unlist()
+        data = file_paths %>% purrr::quietly(purrr::map)(MW) %>% `[[`("result"),
+        format = .data$data %>% purrr::map( ~ attributes(.x)["format"]) %>% unlist()
       )
   }
   structure(study, class = c("psyphr_study", class(study)))
@@ -55,31 +68,43 @@ read_MW_study <- function(path, structure = "flat", stash = FALSE, stash_dir_pat
 
 #' Print a Summary of a Psyphr Study
 #'
-#' @param study a psyphr study object
+#' @param x a psyphr study object
+#' @param ... dot-dot-dot
 #'
 #' @return NULL
 #' @export
-#'
-#' @examples
-print.psyphr_study <- function(study){
+print.psyphr_study <- function(x, ...){
   #
 
 
 }
 
 
-#' Lift Metadata from Workbooks in a Study
-#'
-#' @param study a psyphr study object
-#'
-#' @return a psyphr study S3 object
-#' @export
-#'
-lift_meta <- function(study){
-  study %>%
-    dplyr::mutate(settings = .data$data %>% purrr::map("Settings"))
+pick_sheets <- function(study, elements){
+  purrr::map(elements,
+      ~ purrr::map(study$data, .)
+  ) %>%
+    purrr::set_names(elements) %>%
+    tibble::as_tibble()
 }
 
+#' Unnest Data in a Study
+#'
+#' @param study a psyphr study
+#'
+#' @return a data frame; psyphr study S3 object
+#' @export
+#'
+unnest_data <- function(study){
+  MW_format_profiles <- readRDS(system.file("extdata/MW/MW_format_profiles.rds", package = "psyphr.read"))
+  study_formats <- intersect(unique(study$format), names(MW_format_profiles))
+  study_sheet_names <- unique(unlist(MW_format_profiles[study_formats]))
+  sheets <- pick_sheets(study, study_sheet_names)
+
+  study %>%
+    dplyr::select(-.data$data) %>%
+    dplyr::bind_cols(sheets)
+}
 
 
 #' Flatten a Study with a Recursive File Structure

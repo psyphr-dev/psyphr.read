@@ -4,10 +4,12 @@
 \alias{print.psyphr_workbook}
 \title{Print Brief Info on psyphr_workbook}
 \usage{
-\method{print}{psyphr_workbook}(x)
+\method{print}{psyphr_workbook}(x, ...)
 }
 \arguments{
-\item{x}{}
+\item{x}{a psyphr workbook}
+
+\item{...}{dot-dot-dot}
 }
 \description{
 Print Brief Info on psyphr_workbook

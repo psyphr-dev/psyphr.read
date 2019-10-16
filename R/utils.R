@@ -4,11 +4,12 @@
 #' @export
 #'
 sample_study_MW <- function(){
-  system.file("extdata/MW/study", package = "psyphr")
+  system.file("extdata/MW/study", package = "psyphr.read")
 }
 
-
 #' Recursively Print out the Structure of a List
+#'
+#' @references https://gist.github.com/iqis/926c189da89a32b9702c340c42401c67
 #'
 #' @param x a list or environment
 #' @param limit recursive level limit
@@ -39,7 +40,7 @@ tree <- function(x = .GlobalEnv, limit = 5, class = TRUE, unclass = FALSE, compa
                paste(dim(body),
                      collapse = " by ")),
         ", ",
-        format(object.size(body), # size (in memory)
+        format(utils::object.size(body), # size (in memory)
                units = "auto",
                standard = "SI"),
         "|"
@@ -71,7 +72,7 @@ tree <- function(x = .GlobalEnv, limit = 5, class = TRUE, unclass = FALSE, compa
         NULL
       } else {
         sapply(branches_end[1:(level - 1)],
-               function(x) `if`(x, "    ", "│    "))
+               function(x) `if`(x, "    ", "\u2502    "))
       }
 
       # print line
@@ -81,7 +82,7 @@ tree <- function(x = .GlobalEnv, limit = 5, class = TRUE, unclass = FALSE, compa
         cat(
           # rep("    ", level - 1),
           indent,
-          `if`(branches_end[level], "└── ", "├── "), # branch
+          `if`(branches_end[level], "\u2514\u2500\u2500 ", "\u251C\u2500\u2500 "), # branch
           element_profile(name = element_names[i],
                           body = element),
           "\n",
@@ -104,7 +105,7 @@ tree <- function(x = .GlobalEnv, limit = 5, class = TRUE, unclass = FALSE, compa
     cat(..., sep = "\n")
   }
 
-  out <- capture.output({
+  out <- utils::capture.output({
     cat(element_profile(name = deparse(substitute(x)),
                         body = x),"\n", sep = "")
     traverse(x)

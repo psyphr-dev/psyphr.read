@@ -1,0 +1,32 @@
+---
+title: "Introduction to Psyphr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Usage
+
+Load and attach `psyphr`.
+
+```{r setup}
+require(psyphr.read)
+```
+
+
+### Read a Single File
+
+### Compile a Study
+
+#### Directory Structure
+
+### Exploratory Analysis

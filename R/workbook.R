@@ -4,8 +4,8 @@
 #'
 #' @return a list of data frames; psyphr workbook S3 object
 #' @export
-read_MW <- function(path){
-  workbook <- read_MW_workbook(path)
+MW <- function(path){
+  workbook <- MW_workbook(path)
   workbook_format <- detect_MW_workbook_format(workbook)
 
   # some hard logic, LOL
@@ -37,20 +37,24 @@ read_MW <- function(path){
 
 #' Print Brief Info on psyphr_workbook
 #'
-#' @param x
+#' @param x a psyphr workbook
+#' @param ... dot-dot-dot
 #'
 #' @return NULL
 #' @export
 #'
-print.psyphr_workbook <- function(x){
+print.psyphr_workbook <- function(x, ...){
   cat("<psyphr_workbook>", attr(x, "device_vendor"), attr(x, "format"), "\n",
       "file:", attr(x, "file_path"), "\n")
+  for (e in names(x)) {
+    cat("-", e, "\n")
+  }
 }
 
 #### Internal ####
 
 # Read a MindWare Workbook in Excel format
-read_MW_workbook <- function(path){
+MW_workbook <- function(path){
   # Check if file type is Excel
   `if`(is.na(readxl::excel_format(path)), stop("The input is not an Excel file"))
 
@@ -328,22 +332,22 @@ tidy_MW_Startle_EMG <- function(workbook){
 
 # Turn a data frame into vector
 # Data frame's first column as vectors' names, the second column as values
-df_to_vector <- function(.data){
-  res <- .data[[2]]
-  names(res) <- .data[[1]]
+df_to_vector <- function(dat){
+  res <- dat[[2]]
+  names(res) <- dat[[1]]
   res
 }
 
-transpose_convert_colnames <- function(.data) {
-  .data %>%
+transpose_convert_colnames <- function(dat) {
+  dat %>%
     t() %>%
     first_row_to_colnames() %>%
     tibble::as_tibble()
 }
 
-first_row_to_colnames <- function(.data){
-  colnames(.data) <- .data[1,]
-  .data[-1,,drop = FALSE]
+first_row_to_colnames <- function(dat){
+  colnames(dat) <- dat[1,]
+  dat[-1,,drop = FALSE]
 }
 
 # Bare Name of a File, w.o. Path or Extension
@@ -352,9 +356,9 @@ bare_name <- function(path){
 }
 
 # Gather segments
-gather_segments <- function(.data){
-  .data %>%
-    dplyr::mutate(`Segment Index` = 1:nrow(.)) %>%
-    tidyr::gather(key = "Segment", value = "Value", -`Segment Index`) %>%
-    dplyr::mutate(`Session Index` = 1:nrow(.))
+gather_segments <- function(dat){
+  dat %>%
+    dplyr::mutate("Segment Index" = 1:nrow(dat)) %>%
+    tidyr::gather(key = "Segment", value = "Value", -"Segment Index") %>%
+    dplyr::mutate("Session Index" = 1:nrow(.))
 }

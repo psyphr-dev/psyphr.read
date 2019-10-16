@@ -12,9 +12,11 @@ stash(object, dir_path = tempdir(),
 \item{object}{an R object; name}
 
 \item{dir_path}{path to a directory;character string}
+
+\item{file_name}{name of the stash file}
 }
 \value{
-a stash_pointer obj
+a stash_ref obj
 }
 \description{
 Stash an R Object onto Disk

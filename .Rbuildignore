@@ -1,4 +1,12 @@
-^psyphr\.Rproj$
+^psyphr\.read\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^README\.Rmd$
+^appveyor\.yml$
+^\.travis\.yml$
+^CODE_OF_CONDUCT\.md$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^doc$
+^Meta$

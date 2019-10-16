@@ -19,3 +19,10 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+This material is based upon work supported by the 
+National Science Foundation Graduate Research Fellowship Program 
+under Grant No. 006784-00002 [to KEW]. Any opinions, findings, and 
+conclusions or recommendations expressed in this material are those of 
+the authors and do not necessarily reflect the views of the National 
+Science Foundation.

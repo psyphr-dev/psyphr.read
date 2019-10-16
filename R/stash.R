@@ -2,69 +2,73 @@
 #'
 #' @param object an R object; name
 #' @param dir_path path to a directory;character string
+#' @param file_name name of the stash file
 #'
-#' @return a stash_pointer obj
+#' @return a stash_ref obj
 #' @export
 #'
 stash <- function(object,
                   dir_path = tempdir(),
                   file_name = paste0(sample(c(letters, LETTERS, 0:9), 20, TRUE), collapse = "")){
-  file_name <- paste0(file_name, ".Rstash")
-  file_path <- file.path(dir_path, file_name)
-  saveRDS(object, file_path)
-  f <- function(){
-    if (!file.exists(file_path)){
-      stop("stash file missing.")
-    } else {
-      readRDS(file_path)
-    }
-  }
+  res <-
+    mod::thing({
 
-  structure(f,
-            class = c("stash_pointer", class(f)),
-            file_path = file_path,
-            obj_size = format(object.size(object), unit = "MB", digits = 2),
-            obj_class = class(object)
-  )
+      # Metadata
+      file_path <- file.path(dir_path, paste0(file_name, ".Rstash"))
+      obj_size <- utils::object.size(object)
+      obj_class <-  class(object)
+
+      # Dump Stash
+      saveRDS(object, file_path)
+
+      # Data
+      ..content <- NULL
+
+      # = Methods =
+
+      load_content <- function() ..content <<- readRDS(file_path)
+      remove_content <- function() ..content <<- NULL
+      has_content <- function() !is.null(..content)
+
+      has_stash_file <- function() file.exists(file_path)
+      remove_stash <- function() if (has_stash_file()) file.remove(file_path)
+
+    },
+    dot = function(){
+      if (has_content()) {
+        return(..content)
+      } else if (has_stash_file()) {
+        return(readRDS(file_path))
+      } else {
+        stop(paste("stash file missing at:\n", file_path))
+      }
+    })
+
+  class(res) <- c("stash_ref", class(res))
+  res
 }
 
-#' Print Brief Info on a stash_pointer
+
+#' Print Brief Info on a stash_ref
 #'
-#' @param x
+#' @param x object
+#' @param ... dot-dot-dot
 #'
 #' @return NULL
 #' @export
 #'
-print.stash_pointer <- function(x){
-  cat(paste0("<stash_pointer>", " `", attr(x, "obj_class")[1],"` ", attr(x, "obj_size"), "\n"))
-  cat("- ", paste(attr(x, "file_path")))
+print.stash_ref <- function(x, ...){
+  cat(paste0("<stash_ref>", " `", x$obj_class[1],"` ", x$obj_size, "\n"))
+  cat("- ", paste(x$file_path))
 }
 
-#' Delete Cache on Disk
+#' Test if an Object is a stash_ref
 #'
-#' @param stash_pointer
-#'
-#' @return NULL
-#' @export
-#'
-clear_stash <- function(stash_pointer){
-  file_path <- attr(stash_pointer, "file_path")
-  if (file.exists(file_path)){
-    file.remove(file_path)
-  }
-}
-
-stash_exists <- function(stash_pointer){
-  file.exists(attr(stash_pointer, "file_path"))
-}
-
-#' Test if an Object is a stash_pointer
-#'
-#' @param x
+#' @param x object
 #'
 #' @return Logical
 #' @export
 #'
-is_stash_pointer <- function(x){
-  inherits(x, "stash_pointer")
+is_stash_ref <- function(x){
+  inherits(x, "stash_ref")
 }
