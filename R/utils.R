@@ -3,7 +3,7 @@
 #' @return path to sample MindWare study; character string
 #' @export
 #'
-sample_study_MW <- function(){
+sample_study_mindware <- function(){
   system.file("extdata/MW/study", package = "psyphr.read")
 }
 
@@ -23,7 +23,7 @@ sample_study_MW <- function(){
 #' @export
 #'
 tree <- function(x = .GlobalEnv, limit = 5, class = TRUE, unclass = FALSE, compact = TRUE, rich = FALSE, all.names = FALSE){
-  if (!(mode(x) %in% c("list", "environment") & length(x) > 0)){
+  if (!(mode(x) %in% c("list", "environment") & length(x) > 0)) {
     stop("Please provide a non-empty list or environment")
   }
 
@@ -51,20 +51,20 @@ tree <- function(x = .GlobalEnv, limit = 5, class = TRUE, unclass = FALSE, compa
   traverse <- function(x, level = 1, branches_end = c()){
     element_names <- # vec of names at current level
       if (is.list(x)) {
-        if (!is.null(names(x))){
+        if (!is.null(names(x))) {
           names(x)
         } else {
           rep("", length(x))
         }
-      } else if (is.environment(x)){
+      } else if (is.environment(x)) {
         objects(x, all.names = all.names)
       }
 
-    for (i in 1:length(element_names)){
+    for (i in 1:length(element_names)) {
       branches_end[level] <- i == length(element_names) # logical vec, branch ended in all levels?
-      element <- if (is.list(x)){ # element itself
+      element <- if (is.list(x)) { # element itself
         x[[i]]
-      } else if (is.environment(x)){
+      } else if (is.environment(x)) {
         get(element_names[i], x)
       }
 
@@ -76,7 +76,7 @@ tree <- function(x = .GlobalEnv, limit = 5, class = TRUE, unclass = FALSE, compa
       }
 
       # print line
-      if (compact & is.null(names(x))){ # compact when no-name
+      if (compact & is.null(names(x))) { # compact when no-name
         NULL
       } else {
         cat(
@@ -95,7 +95,7 @@ tree <- function(x = .GlobalEnv, limit = 5, class = TRUE, unclass = FALSE, compa
                             mode(element),
                             class(element)
       )
-      if (any(element_class %in% c("list", "environment")) & length(element) > 0 & level < limit){
+      if (any(element_class %in% c("list", "environment")) & length(element) > 0 & level < limit) {
         traverse(x = element, level = level + 1, branches_end = branches_end)
       }
     }

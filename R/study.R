@@ -47,7 +47,7 @@ study_mindware <- function(path, structure = "flat", stash = FALSE, stash_dir_pa
   if (stash) {
     study$stash <-  as.list(vector(length = nrow(study)))
     for (i in 1:nrow(study)) {
-      study$stash[[i]] <- stash(MW(file_paths[i]),
+      study$stash[[i]] <- stash(mindware(file_paths[i]),
                                 dir_path = stash_dir_path,
                                 file_name = paste(file_ids[[i]], collapse = "_"))
     }
@@ -59,7 +59,7 @@ study_mindware <- function(path, structure = "flat", stash = FALSE, stash_dir_pa
   } else {
     study <- study %>%
       dplyr::mutate(
-        data = file_paths %>% purrr::quietly(purrr::map)(MW) %>% `[[`("result"),
+        data = file_paths %>% purrr::quietly(purrr::map)(mindware) %>% `[[`("result"),
         format = .data$data %>% purrr::map( ~ attributes(.x)["format"]) %>% unlist()
       )
   }
