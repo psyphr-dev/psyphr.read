@@ -20,7 +20,7 @@ study <- function(path, ...){
 #'
 #' @return a data frame; psyphr study S3 object
 #' @export
-MW_study <- function(path, structure = "flat", stash = FALSE, stash_dir_path = tempdir()){
+study_mindware <- function(path, structure = "flat", stash = FALSE, stash_dir_path = tempdir()){
   file_paths <- list.files(path = path, pattern = "\\.xlsx$", full.names = TRUE, recursive = TRUE)
   file_ids <-
     dplyr::case_when(
@@ -44,16 +44,16 @@ MW_study <- function(path, structure = "flat", stash = FALSE, stash_dir_path = t
       ~ .x %>% stringr::str_replace("V", "id_")
     )
 
-  if (stash){
+  if (stash) {
     study$stash <-  as.list(vector(length = nrow(study)))
-    for (i in 1:nrow(study)){
+    for (i in 1:nrow(study)) {
       study$stash[[i]] <- stash(MW(file_paths[i]),
                                 dir_path = stash_dir_path,
                                 file_name = paste(file_ids[[i]], collapse = "_"))
     }
 
     study$format <- vector(length = nrow(study))
-    for (i in 1:nrow(study)){
+    for (i in 1:nrow(study)) {
       study$format[[i]] <-  attr(study$stash[[i]](), "format")
     }
   } else {
@@ -145,7 +145,7 @@ lift_study_dir <- function(origin, dest, delim = "_"){
   origin_file_path <- file.path(origin, origin_file_name)
   dest_file_path <- file.path(dest,dest_file_name)
 
-  for (i in seq_along(origin_file_path)){
+  for (i in seq_along(origin_file_path)) {
     if (!dir.exists(dirname(dest_file_path[i]))) {
       dir.create(dirname(dest_file_path[i]), recursive = TRUE)
     }
