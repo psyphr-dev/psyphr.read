@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • psyphr.read</title>
+<title>Read a study — study • psyphr.read</title>
 
 
 <!-- jquery -->
@@ -35,7 +35,9 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Read a study — study" />
+<meta property="og:description" content="Read a study" />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -54,7 +56,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -113,81 +115,44 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Read a study</h1>
+    <small class="dont-index">Source: <a href='https://github.com/psyphr-dev/psyphr.read/blob/master/R/study.R'><code>R/study.R</code></a></small>
+    <div class="hidden name"><code>study.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Read a study</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>study</span>(<span class='no'>path</span>, <span class='no'>...</span>)</pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-read-files" class="hasAnchor"><a href="#section-read-files" class="anchor"></a>Read Files</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="mindware.html">mindware()</a></code> </p>
-        </td>
-        <td><p>Read a MindWare Workbook</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="study.html">study()</a></code> </p>
-        </td>
-        <td><p>Read a study</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="study_mindware.html">study_mindware()</a></code> </p>
-        </td>
-        <td><p>Read a study from a directory</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-utilities" class="hasAnchor"><a href="#section-utilities" class="anchor"></a>Utilities</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="stash.html">stash()</a></code> </p>
-        </td>
-        <td><p>Stash an R Object onto Disk</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="is_stash_ref.html">is_stash_ref()</a></code> </p>
-        </td>
-        <td><p>Test if an Object is a stash_ref</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tree.html">tree()</a></code> </p>
-        </td>
-        <td><p>Recursively Print out the Structure of a List</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>path</th>
+      <td><p>path to a study directory; a character string</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>dot-dot-dot</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>a data frame; psyphr study S3 object</p>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-read-files">Read Files</a></li>
-      <li><a href="#section-utilities">Utilities</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
     </ul>
+
   </div>
 </div>
 

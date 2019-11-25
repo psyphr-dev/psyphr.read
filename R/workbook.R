@@ -4,7 +4,7 @@
 #'
 #' @return a list of data frames; psyphr workbook S3 object
 #' @export
-MW <- function(path){
+mindware <- function(path){
   workbook <- MW_workbook(path)
   workbook_format <- detect_MW_workbook_format(workbook)
 

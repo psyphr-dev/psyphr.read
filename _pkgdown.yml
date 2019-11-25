@@ -1,1 +1,15 @@
 destination: docs
+
+reference:
+  - title: "Read Files"
+    desc:
+    contents:
+      - mindware
+      - study
+      - study_mindware
+  - title: "Utilities"
+    desc:
+    contents:
+      - stash
+      - is_stash_ref
+      - tree
