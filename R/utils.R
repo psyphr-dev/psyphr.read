@@ -3,8 +3,8 @@
 #' @return path to sample MindWare study; character string
 #' @export
 #'
-sample_study_mindware <- function(){
-  system.file("extdata/MW/study", package = "psyphr.read")
+mindware_sample_study_1 <- function(){
+  system.file("extdata/MW/Pilot1", package = "psyphr.read")
 }
 
 #' Recursively Print out the Structure of a List
