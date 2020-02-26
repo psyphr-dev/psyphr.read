@@ -6,17 +6,33 @@
 #' @export
 mindware <- function(path){
   workbook <- MW_workbook(path)
-  workbook_format <- detect_MW_workbook_format(workbook)
 
   # some hard logic, LOL
-  f <-
-    if (workbook_format %in% c("BPV", "BPV_Interval")) {tidy_MW_BPV
-    } else if (workbook_format %in% "EDA") {tidy_MW_EDA
-    } else if (workbook_format %in% c("EMG", "EMG_Interval")) {tidy_MW_EMG
-    } else if (workbook_format %in% c("HRV", "HRV_Interval")) {tidy_MW_HRV
-    } else if (workbook_format %in% "IMP") {tidy_MW_IMP
-    } else if (workbook_format %in% "Startle_EMG") {tidy_MW_Startle_EMG
-    } else (stop("Input is not in a known format"))
+
+  f <- switch(detect_MW_workbook_format(workbook),
+              # 3.1
+              "3.1_BPV" = tidy_MW_3.1_BPV,
+              "3.1_BPV_Interval" = tidy_MW_3.1_BPV,
+              "3.1_EDA" = tidy_MW_3.1_EDA,
+              "3.1_EDA_Interval" = tidy_MW_3.1_EDA,
+              "3.1_EMG" = tidy_MW_3.1_EMG,
+              "3.1_EMG_Interval" = tidy_MW_3.1_EMG,
+              "3.1_HRV" = tidy_MW_3.1_HRV,
+              "3.1_IMP" = tidy_MW_3.1_IMP,
+
+              # 3.2
+              "3.2_BPV" = tidy_MW_3.2_BPV,
+              "3.2_BPV_Interval" = tidy_MW_3.2_BPV,
+              "3.2_EDA" = tidy_MW_3.2_EDA,
+              "3.2_EMG" = tidy_MW_3.2_EMG,
+              "3.2_EMG_Interval" = tidy_MW_3.2_EMG,
+              "3.2_HRV" = tidy_MW_3.2_HRV,
+              "3.2_HRV_Interval" = tidy_MW_3.2_HRV,
+              "3.2_IMP" = tidy_MW_3.2_IMP,
+              "3.2_Startle_EMG" = tidy_MW_3.2_Startle_EMG,
+
+              stop("Workbook format not recognized."))
+
 
   workbook <- f(workbook)
 
@@ -91,7 +107,26 @@ detect_MW_workbook_format <- function(workbook){
 }
 
 # Tidy Mindware workbooks
-tidy_MW_BPV <- function(workbook){
+
+tidy_MW_3.1_BPV <- function(workbook){
+  workbook
+}
+tidy_MW_3.1_EDA <- function(workbook){
+  workbook
+}
+tidy_MW_3.1_EMG <- function(workbook){
+  workbook
+}
+tidy_MW_3.1_HRV <- function(workbook){
+  workbook
+}
+tidy_MW_3.1_IMP <- function(workbook){
+  workbook
+}
+
+
+## 3.2
+tidy_MW_3.2_BPV <- function(workbook){
 
   # BPV Stats
   workbook[[1]] <- workbook[[1]] %>%
@@ -151,7 +186,7 @@ tidy_MW_BPV <- function(workbook){
   return(workbook)
 }
 
-tidy_MW_EDA <- function(workbook){
+tidy_MW_3.2_EDA <- function(workbook){
   # EDA Stats
   workbook[[1]] <- workbook[[1]] %>%
     transpose_convert_colnames()
@@ -173,7 +208,7 @@ tidy_MW_EDA <- function(workbook){
   return(workbook)
 }
 
-tidy_MW_EMG <- function(workbook){
+tidy_MW_3.2_EMG <- function(workbook){
 
   # EMG Stats
   workbook[[1]] <- workbook[[1]] %>%
@@ -205,7 +240,7 @@ tidy_MW_EMG <- function(workbook){
   return(workbook)
 }
 
-tidy_MW_HRV <- function(workbook){
+tidy_MW_3.2_HRV <- function(workbook){
   # HRV Stats
   workbook[[1]] <- workbook[[1]] %>%
     transpose_convert_colnames()
@@ -272,7 +307,7 @@ tidy_MW_HRV <- function(workbook){
   return(workbook)
 }
 
-tidy_MW_IMP <- function(workbook){
+tidy_MW_3.2_IMP <- function(workbook){
   # Impedance Stats
   workbook[[1]] <- workbook[[1]] %>%
     transpose_convert_colnames()
@@ -295,7 +330,7 @@ tidy_MW_IMP <- function(workbook){
   return(workbook)
 }
 
-tidy_MW_Startle_EMG <- function(workbook){
+tidy_MW_3.2_Startle_EMG <- function(workbook){
 
   # Left eye - Trials
   workbook[[1]] <- workbook[[1]] %>%
