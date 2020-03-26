@@ -259,7 +259,19 @@ tidy_MW_3.1_HRV <- function(workbook){
   return(workbook)
 }
 tidy_MW_3.1_IMP <- function(workbook){
-  workbook
+  # Impedance Stats
+  workbook[[1]] <- workbook[[1]][69:nrow(workbook[[1]]), ] %>%
+    transpose_convert_colnames()
+
+  # IBI
+  workbook[[2]] <- workbook[[2]] %>%
+    first_row_to_colnames() %>%
+    gather_segments()
+
+  attr(workbook, "format") <- "IMP"
+  attr(workbook, "mindware_version") <- 3.1
+
+  return(workbook)
 }
 
 
