@@ -109,13 +109,96 @@ detect_MW_workbook_format <- function(workbook){
 # Tidy Mindware workbooks
 
 tidy_MW_3.1_BPV <- function(workbook){
-  workbook
+  # BPV Stats
+  # real data starts from line 58
+  workbook[[1]] <- workbook[[1]][58:nrow(workbook[[1]]), ] %>%
+    transpose_convert_colnames()
+
+  # IBI Series
+  workbook[[2]] <- workbook[[2]] %>%
+    first_row_to_colnames() %>%
+    gather_segments()
+
+  # Systolic Amplitudes
+  workbook[[3]] <- workbook[[3]] %>%
+    first_row_to_colnames() %>%
+    gather_segments()
+
+  # Diastolic Amplitudes
+  workbook[[4]] <- workbook[[4]] %>%
+    first_row_to_colnames() %>%
+    gather_segments()
+
+  # MAP
+  workbook[[5]] <- workbook[[5]] %>%
+    first_row_to_colnames() %>%
+    gather_segments()
+
+  # HR Power Band Stats
+  workbook[[6]] <- workbook[[6]] %>%
+    transpose_convert_colnames()
+
+  # BP Power Band Stats
+  workbook[[7]] <- workbook[[7]] %>%
+    transpose_convert_colnames()
+
+  # BRS Stats
+  workbook[[8]] <- workbook[[8]] %>%
+    first_row_to_colnames()
+
+  # Interval Stats
+  has_interval <- "Interval Stats" %in% names(workbook)
+  if (has_interval) {
+    workbook[[8 + has_interval]] <- workbook[[8 + has_interval]] %>%
+      first_row_to_colnames()
+  }
+
+  attr(workbook, "format") <- "BPV"
+  attr(workbook, "mindware_version") <- 3.1
+
+  return(workbook)
 }
 tidy_MW_3.1_EDA <- function(workbook){
-  workbook
+  # EDA Stats
+  workbook[[1]] <- workbook[[1]][41:nrow(workbook[[1]]), ] %>%
+    transpose_convert_colnames()
+
+  # SCR Stats
+  workbook[[2]] <- workbook[[2]] %>%
+    first_row_to_colnames()
+
+  # Interval Stats
+  has_interval <- "Interval Stats" %in% names(workbook)
+  if (has_interval) {
+    workbook[[2 + has_interval]] <- workbook[[2 + has_interval]] %>%
+      first_row_to_colnames()
+  }
+
+  attr(workbook, "format") <- "EDA"
+  attr(workbook, "mindware_version") <- 3.2
+
+  return(workbook)
 }
 tidy_MW_3.1_EMG <- function(workbook){
-  workbook
+  # EMG Stats
+  workbook[[1]] <- workbook[[1]][48:nrow(workbook[[1]]), ] %>%
+    transpose_convert_colnames()
+
+  # Channel Stats
+  workbook[[2]] <- workbook[[2]] %>%
+    first_row_to_colnames()
+
+  # Interval Stats
+  has_interval <- "Interval Stats" %in% names(workbook)
+  if (has_interval) {
+    workbook[[2 + has_interval]] <- workbook[[2 + has_interval]] %>%
+      first_row_to_colnames()
+  }
+
+  attr(workbook, "format") <- "EMG"
+  attr(workbook, "mindware_version") <- 3.1
+
+  return(workbook)
 }
 tidy_MW_3.1_HRV <- function(workbook){
   workbook
@@ -182,6 +265,7 @@ tidy_MW_3.2_BPV <- function(workbook){
     transpose_convert_colnames()
 
   attr(workbook, "format") <- "BPV"
+  attr(workbook, "mindware_version") <- 3.2
 
   return(workbook)
 }
@@ -204,6 +288,7 @@ tidy_MW_3.2_EDA <- function(workbook){
     transpose_convert_colnames()
 
   attr(workbook, "format") <- "EDA"
+  attr(workbook, "mindware_version") <- 3.2
 
   return(workbook)
 }
@@ -236,6 +321,7 @@ tidy_MW_3.2_EMG <- function(workbook){
     transpose_convert_colnames()
 
   attr(workbook, "format") <- "EMG"
+  attr(workbook, "mindware_version") <- 3.2
 
   return(workbook)
 }
@@ -303,6 +389,7 @@ tidy_MW_3.2_HRV <- function(workbook){
     transpose_convert_colnames()
 
   attr(workbook, "format") <- "HRV"
+  attr(workbook, "mindware_version") <- 3.2
 
   return(workbook)
 }
@@ -326,6 +413,7 @@ tidy_MW_3.2_IMP <- function(workbook){
     transpose_convert_colnames()
 
   attr(workbook, "format") <- "IMP"
+  attr(workbook, "mindware_version") <- 3.2
 
   return(workbook)
 }
@@ -361,6 +449,7 @@ tidy_MW_3.2_Startle_EMG <- function(workbook){
     transpose_convert_colnames()
 
   attr(workbook, "format") <- "Startle_EMG"
+  attr(workbook, "mindware_version") <- 3.2
 
   return(workbook)
 }
