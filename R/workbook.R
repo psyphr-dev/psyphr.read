@@ -201,7 +201,62 @@ tidy_MW_3.1_EMG <- function(workbook){
   return(workbook)
 }
 tidy_MW_3.1_HRV <- function(workbook){
-  workbook
+  # HRV Stats
+  workbook[[1]] <- workbook[[1]][47:nrow(workbook[[1]]), ] %>%
+    transpose_convert_colnames()
+
+  # IBI Series
+  workbook[[2]] <- workbook[[2]] %>%
+    first_row_to_colnames() %>%
+    gather_segments()
+
+  # Power Band Stats
+  workbook[[3]] <- workbook[[3]] %>%
+    transpose_convert_colnames()
+
+  # Heart Rate Time Series
+  workbook[[4]] <- workbook[[4]] %>%
+    first_row_to_colnames() %>%
+    gather_segments()
+
+
+  # Heart Period Power Spectrum
+  hr_delta_f <- workbook[[5]][1,1, drop = TRUE]
+  workbook[[5]] <- workbook[[5]][2:nrow(workbook[[5]]), ] %>%
+    first_row_to_colnames() %>%
+    gather_segments()
+
+  attr(workbook[[5]], "HR Delta F") <- hr_delta_f
+
+
+  # Respiration Time Series
+  resp_delta_t <- workbook[[6]][1,1, drop = TRUE]
+  workbook[[6]] <- workbook[[6]][2:nrow(workbook[[6]]), ] %>%
+    first_row_to_colnames() %>%
+    gather_segments()
+
+  attr(workbook[[6]], "Resp Delta T") <- resp_delta_t
+
+  # Respiration Power Spectrum
+  resp_delta <- workbook[[7]][1,1, drop = TRUE]
+  workbook[[7]] <- workbook[[7]][2:nrow(workbook[[7]]), ] %>%
+    first_row_to_colnames() %>%
+    gather_segments()
+
+  attr(workbook[[7]], "Resp Delta") <- resp_delta
+
+  # Interval Stats
+  has_interval <- "Interval Stats" %in% names(workbook)
+
+  if (has_interval) {
+    workbook[[7 + has_interval]] <- workbook[[7 + has_interval]] %>%
+      first_row_to_colnames()
+  }
+
+  attr(workbook, "format") <- "HRV"
+  attr(workbook, "mindware_version") <- 3.1
+
+  return(workbook)
 }
 tidy_MW_3.1_IMP <- function(workbook){
   workbook
