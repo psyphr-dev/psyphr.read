@@ -109,8 +109,10 @@ detect_MW_workbook_format <- function(workbook){
 # Tidy Mindware workbooks
 
 tidy_MW_3.1_BPV <- function(workbook){
+  # Settings (part1)
+  settings <- workbook[[1]][1:67, 1:2]
+
   # BPV Stats
-  # real data starts from line 58
   workbook[[1]] <- workbook[[1]][58:nrow(workbook[[1]]), ] %>%
     transpose_convert_colnames()
 
@@ -153,12 +155,19 @@ tidy_MW_3.1_BPV <- function(workbook){
       first_row_to_colnames()
   }
 
+  # Settings (part 2)
+  workbook <- c(workbook,
+                list(Settings = df_to_vector({settings[settings[[1]] %>% Negate(is.na)(), ]})))
+
   attr(workbook, "format") <- "BPV"
   attr(workbook, "mindware_version") <- 3.1
 
   return(workbook)
 }
 tidy_MW_3.1_EDA <- function(workbook){
+  # Settings (part1)
+  settings <- workbook[[1]][1:39, 1:2]
+
   # EDA Stats
   workbook[[1]] <- workbook[[1]][41:nrow(workbook[[1]]), ] %>%
     transpose_convert_colnames()
@@ -174,12 +183,19 @@ tidy_MW_3.1_EDA <- function(workbook){
       first_row_to_colnames()
   }
 
+  # Settings (part 2)
+  workbook <- c(workbook,
+                list(Settings = df_to_vector({settings[settings[[1]] %>% Negate(is.na)(), ]})))
+
   attr(workbook, "format") <- "EDA"
   attr(workbook, "mindware_version") <- 3.2
 
   return(workbook)
 }
 tidy_MW_3.1_EMG <- function(workbook){
+  # Settings (part1)
+  settings <- workbook[[1]][1:46, 1:2]
+
   # EMG Stats
   workbook[[1]] <- workbook[[1]][48:nrow(workbook[[1]]), ] %>%
     transpose_convert_colnames()
@@ -198,9 +214,16 @@ tidy_MW_3.1_EMG <- function(workbook){
   attr(workbook, "format") <- "EMG"
   attr(workbook, "mindware_version") <- 3.1
 
+  # Settings (part 2)
+  workbook <- c(workbook,
+                list(Settings = df_to_vector({settings[settings[[1]] %>% Negate(is.na)(), ]})))
+
   return(workbook)
 }
 tidy_MW_3.1_HRV <- function(workbook){
+  # Settings (part1)
+  settings <- workbook[[1]][1:46, 1:2]
+
   # HRV Stats
   workbook[[1]] <- workbook[[1]][47:nrow(workbook[[1]]), ] %>%
     transpose_convert_colnames()
@@ -253,12 +276,19 @@ tidy_MW_3.1_HRV <- function(workbook){
       first_row_to_colnames()
   }
 
+  # Settings (part 2)
+  workbook <- c(workbook,
+                list(Settings = df_to_vector({settings[settings[[1]] %>% Negate(is.na)(), ]})))
+
   attr(workbook, "format") <- "HRV"
   attr(workbook, "mindware_version") <- 3.1
 
   return(workbook)
 }
 tidy_MW_3.1_IMP <- function(workbook){
+  # Settings (part1)
+  settings <- workbook[[1]][1:67, 1:2]
+
   # Impedance Stats
   workbook[[1]] <- workbook[[1]][69:nrow(workbook[[1]]), ] %>%
     transpose_convert_colnames()
@@ -267,6 +297,10 @@ tidy_MW_3.1_IMP <- function(workbook){
   workbook[[2]] <- workbook[[2]] %>%
     first_row_to_colnames() %>%
     gather_segments()
+
+  # Settings (part 2)
+  workbook <- c(workbook,
+                list(Settings = df_to_vector({settings[settings[[1]] %>% Negate(is.na)(), ]})))
 
   attr(workbook, "format") <- "IMP"
   attr(workbook, "mindware_version") <- 3.1
